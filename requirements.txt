@@ -1,0 +1,2 @@
+st-on-hover-tabs
+streamlit_lottie
