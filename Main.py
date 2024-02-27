@@ -171,23 +171,23 @@ st.divider()
 st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
 
 with st.sidebar:
-        tabs = on_hover_tabs(tabName=['Inicio', 'Blog', 'Contacto'],
-                             iconName=['dashboard', 'newspaper', 'contact_page'],
-                             styles = {'navtab': {'background-color':'#1d3557',
-                                                  'color': '#457b9d',
-                                                  'font-size': '18px',
-                                                  'transition': '.3s',
-                                                  'white-space': 'nowrap',
-                                                  'text-transform': 'capitalize'},
-                                       'tabOptionsStyle': {':hover :hover': {'color': '#e63946',
-                                                                      'cursor': 'pointer'}},
-                                       'iconStyle':{'position':'fixed',
-                                                    'left':'7.5px',
-                                                    'text-align': 'left'},
-                                       'tabStyle' : {'list-style-type': 'none',
-                                                     'margin-bottom': '30px',
-                                                     'padding-left': '30px'}},
-                             key="1")
+    tabs = on_hover_tabs(tabName=['Inicio', 'Blog', 'Contacto'],
+                        iconName=['dashboard', 'newspaper', 'contact_page'],
+                        styles = {'navtab': {'background-color':'#1d3557',
+                                              'color': '#457b9d',
+                                              'font-size': '18px',
+                                              'transition': '.3s',
+                                              'white-space': 'nowrap',
+                                              'text-transform': 'capitalize'},
+                                   'tabOptionsStyle': {':hover :hover': {'color': '#F63366',
+                                                                  'cursor': 'pointer'}},
+                                   'iconStyle':{'position':'fixed',
+                                                'left':'7.5px',
+                                                'text-align': 'left'},
+                                   'tabStyle' : {'list-style-type': 'none',
+                                                 'margin-bottom': '30px',
+                                                 'padding-left': '30px'}},
+                        key="1",default_choice=0)
 
 #------------------------------------------------------------------------------------------------
 #Estilos de la pagina principal
