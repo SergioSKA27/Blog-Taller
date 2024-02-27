@@ -153,7 +153,14 @@ def blog():
     with bcol2:
         st_lottie('https://lottie.host/cb5f87f1-36d5-467e-8de7-fcaa27a79c58/Klr9IfoJsE.json',loop=True,height=400)
 
-    st.divider()
+    st.markdown('''
+    ---
+
+    <div class="blog">
+    <h2>Publicaciones Recientes</h2>
+    <p> Aquí hay algunas de mis publicaciones más recientes en mi blog personal:</p>
+    </div>
+    ''', unsafe_allow_html=True)
 #------------------------------------------------------------------------------------------------
 #Titulo de la pagina
 st.title('Mi primer portafolio con Streamlit')
@@ -262,6 +269,13 @@ st.markdown('''
     font-weight: bold;
     color: #1d3557;
     font-family: 'Lobster', cursive;
+    }
+.blog h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #1d3557;
+    font-family: 'Lobster', cursive;
+    margin-top: 0rem; !important;
     }
 .blog p {
     font-family: 'Lobster', cursive;
