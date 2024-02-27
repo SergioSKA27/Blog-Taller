@@ -137,6 +137,22 @@ def contact():
                 st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
 
 
+def projects():
+    pc1, pc2 = st.columns([0.6, 0.4])
+    with pc1:
+        st.markdown('''
+        <div class="projects">
+        <h1>Mis Proyectos</h1>
+        <p> En esta sección, puedes encontrar algunos de mis proyectos más recientes. Estos proyectos abarcan una
+        variedad de temas, incluyendo la ciencia de datos, el desarrollo de software, y el análisis de negocios.
+        Espero que encuentres estos proyectos interesantes y útiles.
+        </p>
+        ''', unsafe_allow_html=True)
+
+    with pc2:
+        st_lottie('https://lottie.host/bb7b964f-b151-48d4-902c-f8ff5e1ea037/H2O7NOxRVS.json',loop=True,height=400)
+
+    st.divider()
 
 def blog():
     bcol1 , bcol2 = st.columns([0.6, 0.4])
@@ -288,6 +304,25 @@ st.markdown('''
     font-size: 20px;
     font-weight: bold;
     }
+.projects {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2.5rem;
+    align-items: center;
+    text-align: justify;
+}
+.projects h1 {
+    font-size: 13vh;
+    font-weight: bold;
+    color: #1d3557;
+    }
+.projects p {
+    font-family: 'Lobster', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    }
 </style>
 ''', unsafe_allow_html=True)
 
@@ -305,3 +340,6 @@ if tabs == 'Contacto':
 
 if tabs == 'Blog':
     blog()
+
+if tabs == 'Proyectos':
+    projects()
