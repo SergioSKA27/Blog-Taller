@@ -125,7 +125,9 @@ def contact():
     <h1 style="text-align: center";>Contactame
     </h1>
     ''', unsafe_allow_html=True)
-    with st.form(key='contact_form'):
+
+    _,fcol,_ = st.columns([0.2, 0.6, 0.2])
+    with fcol.form(key='contact_form'):
         name = st.text_input('Tu nombre*')
         motive = st.text_input('Motivo de contacto*')
         email = st.text_input('Email*')
