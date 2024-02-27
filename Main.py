@@ -3,24 +3,12 @@ import streamlit as st
 import asyncio
 import requests
 import base64
-st.set_page_config(layout="wide")
 
 
+#Configuraciones de la pagina
+st.set_page_config(layout="wide",page_title='Mi portafolio',
+page_icon='https://www.alexgrey.com/img/containers/art_images/Psychedelic-Healing---2020-Alex-Grey-smaller-watermarked.jpg/173f3855733a06912abc4e11ecd04c48.jpg')
 
-#Funciones
-async def get_random_image(query='random'):
-    try:
-        result = await asyncio.to_thread(requests.get, f'https://source.unsplash.com/random/600x400?{query}',timeout=1)
-        return base64.b64encode(result.content).decode('utf-8')
-    except Exception as e:
-        return f"https://source.unsplash.com/random/600x400?{query}"
-
-
-
-
-#Cuerpo de la pagina principal
-st.title('Mi primer portafolio con Streamlit')
-st.divider()
 st.markdown('''
 <style>
 #MainMenu, header {visibility: hidden;}
@@ -33,6 +21,25 @@ st.markdown('''
 }
 </style>
 ''', unsafe_allow_html=True)
+
+#------------------------------------------------------------------------------------------------
+#Funciones
+async def get_random_image(query='random'):
+    try:
+        result = await asyncio.to_thread(requests.get, f'https://source.unsplash.com/random/600x400?{query}',timeout=1)
+        return base64.b64encode(result.content).decode('utf-8')
+    except Exception as e:
+        return f"https://source.unsplash.com/random/600x400?{query}"
+
+
+
+#------------------------------------------------------------------------------------------------
+#Titulo de la pagina
+st.title('Mi primer portafolio con Streamlit')
+st.divider()
+
+#------------------------------------------------------------------------------------------------
+#Estilos de la barra lateral
 st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
 
 with st.sidebar:
@@ -54,7 +61,7 @@ with st.sidebar:
                                                      'padding-left': '30px'}},
                              key="1")
 
-
+#------------------------------------------------------------------------------------------------
 #Estilos de la pagina principal
 st.markdown('''
 <style>
@@ -123,6 +130,10 @@ st.markdown('''
 </style>
 ''', unsafe_allow_html=True)
 
+
+
+#------------------------------------------------------------------------------------------------
+#Cuerpo de la pagina principal
 mc1, mc2 = st.columns([0.3, 0.7])
 mc1.markdown('''
 <div class="fotop">
@@ -134,7 +145,7 @@ mc2.markdown('''
 <div class="presentation">
 ¡Hola!
 Soy Sergio, estudiante apasionado de Matemáticas Aplicadas y Computación, con un enfoque en Machine Learning y Ciencia de Datos. Mi objetivo es transformar datos en soluciones innovadoras con impacto real
-en diversos sectores.
+en diversos sectores.En mi tiempo libre, disfruto sumergirme en una variedad de actividades que alimentan mi curiosidad y mi deseo de aprender.
 </div>
 ''', unsafe_allow_html=True)
 
