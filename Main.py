@@ -1,5 +1,6 @@
 from st_on_hover_tabs import on_hover_tabs
 import streamlit as st
+from streamlit_lottie import st_lottie
 import asyncio
 import requests
 import base64
@@ -30,9 +31,6 @@ async def get_random_image(query='random'):
         return base64.b64encode(result.content).decode('utf-8')
     except Exception as e:
         return f"https://source.unsplash.com/random/600x400?{query}"
-
-
-
 
 def main():
     mc1, mc2 = st.columns([0.3, 0.7])
@@ -117,8 +115,7 @@ def main():
         </div>
         ''', unsafe_allow_html=True)
 
-
-
+    st_lottie('https://lottie.host/bed34c9d-f065-42bd-8747-4b37cc12b007/PifHQomLzh.json',loop=False,height=200)
 
 def contact():
     st.markdown('''
@@ -133,6 +130,30 @@ def contact():
         if st.form_submit_button('Enviar',use_container_width=True):
             st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
 
+
+
+def blog():
+    bcol1 , bcol2 = st.columns([0.6, 0.4])
+
+    with bcol1:
+        st.markdown('''
+        <div class="blog">
+            <h1>
+            Mi Blog Personal
+            </h1>
+            <p>
+            En mi blog personal, comparto mis pensamientos y experiencias sobre una variedad de temas, incluyendo la
+            ciencia de datos, el desarrollo de software, y el análisis de negocios. Me encanta compartir lo que he
+            aprendido y las lecciones que he aprendido en el camino, y espero que encuentres mi blog interesante y útil.
+            </p>
+        </div>
+        ''', unsafe_allow_html=True)
+
+
+    with bcol2:
+        st_lottie('https://lottie.host/cb5f87f1-36d5-467e-8de7-fcaa27a79c58/Klr9IfoJsE.json',loop=True,height=400)
+
+    st.divider()
 #------------------------------------------------------------------------------------------------
 #Titulo de la pagina
 st.title('Mi primer portafolio con Streamlit')
@@ -144,7 +165,7 @@ st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_ht
 
 with st.sidebar:
         tabs = on_hover_tabs(tabName=['Inicio', 'Blog', 'Contacto'],
-                             iconName=['dashboard', 'article', 'contact_page'],
+                             iconName=['dashboard', 'newspaper', 'contact_page'],
                              styles = {'navtab': {'background-color':'#1d3557',
                                                   'color': '#457b9d',
                                                   'font-size': '18px',
@@ -227,6 +248,26 @@ st.markdown('''
     font-weight: bold;
     text-align: center;
     }
+.blog {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2.5rem;
+    align-items: center;
+    text-align: justify;
+}
+.blog h1 {
+    text-align: center;
+    font-size: 10vh;
+    font-weight: bold;
+    color: #1d3557;
+    font-family: 'Lobster', cursive;
+    }
+.blog p {
+    font-family: 'Lobster', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    }
 </style>
 ''', unsafe_allow_html=True)
 
@@ -240,3 +281,7 @@ if tabs == 'Inicio':
 
 if tabs == 'Contacto':
     contact()
+
+
+if tabs == 'Blog':
+    blog()
