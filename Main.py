@@ -60,7 +60,8 @@ def main():
 
     with ab1.container(border=True,height=550):
         plh1 = st.empty()
-        img1 = asyncio.run(get_random_image('data-science'))
+        with st.spinner('Cargando...'):
+            img1 = asyncio.run(get_random_image('data-science'))
         if 'https' in img1:
             da1 = f'<img src="{img1}" alt="data-science" width="300" height="200">'
         else:
@@ -80,7 +81,8 @@ def main():
 
     with ab2.container(border=True,height=550):
         plh2 = st.empty()
-        img2 = asyncio.run(get_random_image('web-development'))
+        with st.spinner('Cargando...'):
+            img2 = asyncio.run(get_random_image('web-development'))
         if 'https' in img2:
             da2 = f'<img src="{img2}" alt="web-development" width="300" height="200">'
         else:
@@ -99,7 +101,8 @@ def main():
 
     with ab3.container(border=True,height=550):
         plh3 = st.empty()
-        img3 = asyncio.run(get_random_image('business'))
+        with st.spinner('Cargando...'):
+            img3 = asyncio.run(get_random_image('business'))
         if 'https' in img3:
             da3 = f'<img src="{img3}" alt="business" width="300" height="200">'
         else:
@@ -123,12 +126,15 @@ def contact():
     </h1>
     ''', unsafe_allow_html=True)
     with st.form(key='contact_form'):
-        name = st.text_input('Tu nombre')
-        motive = st.text_input('Motivo de contacto')
-        email = st.text_input('Email')
+        name = st.text_input('Tu nombre*')
+        motive = st.text_input('Motivo de contacto*')
+        email = st.text_input('Email*')
         message = st.text_area('Mensaje')
         if st.form_submit_button('Enviar',use_container_width=True):
-            st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
+            if name == '' or motive == '' or email == '':
+                st.warning('Por favor, llena todos los campos marcados con *',icon='⚠️')
+            else:
+                st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
 
 
 
@@ -163,16 +169,16 @@ def blog():
     ''', unsafe_allow_html=True)
 #------------------------------------------------------------------------------------------------
 #Titulo de la pagina
-st.title('Mi primer portafolio con Streamlit')
-st.divider()
+#st.title('Mi primer portafolio con Streamlit')
+#st.divider()
 
 #------------------------------------------------------------------------------------------------
 #Estilos de la barra lateral
 st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
 
 with st.sidebar:
-    tabs = on_hover_tabs(tabName=['Inicio', 'Blog', 'Contacto'],
-                        iconName=['dashboard', 'newspaper', 'contact_page'],
+    tabs = on_hover_tabs(tabName=['Inicio', 'Blog','Proyectos', 'Contacto'],
+                        iconName=['dashboard', 'newspaper','verified', 'contact_page'],
                         styles = {'navtab': {'background-color':'#1d3557',
                                               'color': '#457b9d',
                                               'font-size': '18px',
