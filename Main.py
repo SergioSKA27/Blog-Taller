@@ -37,6 +37,21 @@ async def get_random_image(query='random'):
     except Exception as e:
         return f"https://source.unsplash.com/random/600x400?{query}"
 
+def insert_message(name,motive,email,message):
+    try:
+        xata.insert("Mensaje", {
+    "emisor": name,
+    "correo": email,
+    "motivo": motive,
+    "contenido": message
+    })
+        st.success('Mensaje enviado con éxito!')
+        st.toast('Gracias por tu mensaje! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
+    except Exception as e:
+        st.error('Ocurrió un error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.')
+        st.exception(e)
+
+
 def update_articles():
     st.session_state.articles = xata.query('Articulo')
 
@@ -183,7 +198,9 @@ def contact():
             if name == '' or motive == '' or email == '':
                 st.warning('Por favor, llena todos los campos marcados con *',icon='⚠️')
             else:
-                st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
+                if message == '':
+                    message = 'Sin mensaje'
+                insert_message(name,motive,email,message)
 
 
 def render_project(project):
