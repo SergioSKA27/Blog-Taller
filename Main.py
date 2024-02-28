@@ -6,6 +6,7 @@ import asyncio
 import requests
 import base64
 import random
+import time
 
 
 #Configuraciones de la pagina
@@ -277,6 +278,7 @@ def blog():
 
     cols = st.columns(3)
     k = 0
+
     for i in st.session_state.articles['records']:
         with cols[k]:
             render_article_prev(i)
@@ -458,13 +460,35 @@ if tabs == 'Blog':
     if st.session_state.article is not None:
         read_article(st.session_state.article)
     else:
-        blog()
+        with st.spinner('Cargando...'):
+            blog()
         _,rini , nxt = st.columns([0.7,0.2,0.1])
         if rini.button('Regresar al inicio',use_container_width=True):
             update_articles()
+            js = '''
+                <script>
+                    var body = window.parent.document.querySelector(".main");
+                    console.log(body);
+                    body.scrollTop = 0;
+                </script>
+                '''
+
+            st.components.v1.html(js)
+            time.sleep(1)
             st.rerun()
+
         if nxt.button('Mostrar más'):
             st.session_state.articles = xata.next_page('Articulo',st.session_state.articles)
+            js = '''
+                <script>
+                    var body = window.parent.document.querySelector(".main");
+                    console.log(body);
+                    body.scrollTop = 0;
+                </script>
+                '''
+
+            st.components.v1.html(js)
+            time.sleep(1)
             st.rerun()
 
 
