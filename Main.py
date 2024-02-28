@@ -120,7 +120,7 @@ def main():
 
     ab1, ab2, ab3 = st.columns([0.3, 0.3, 0.3])
 
-    with ab1.container(border=True,height=550):
+    with ab1.container(border=True,height=600):
         plh1 = st.empty()
         with st.spinner('Cargando...'):
             img1 = asyncio.run(get_random_image('data-science'))
@@ -141,7 +141,7 @@ def main():
         ''', unsafe_allow_html=True)
 
 
-    with ab2.container(border=True,height=550):
+    with ab2.container(border=True,height=600):
         plh2 = st.empty()
         with st.spinner('Cargando...'):
             img2 = asyncio.run(get_random_image('web-development'))
@@ -161,7 +161,7 @@ def main():
         ''', unsafe_allow_html=True)
 
 
-    with ab3.container(border=True,height=550):
+    with ab3.container(border=True,height=600):
         plh3 = st.empty()
         with st.spinner('Cargando...'):
             img3 = asyncio.run(get_random_image('business'))
