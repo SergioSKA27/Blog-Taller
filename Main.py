@@ -1,14 +1,19 @@
 from st_on_hover_tabs import on_hover_tabs
 import streamlit as st
 from streamlit_lottie import st_lottie
+from st_xatadb_connection import XataConnection
 import asyncio
 import requests
 import base64
+import random
 
 
 #Configuraciones de la pagina
 st.set_page_config(layout="wide",page_title='Mi portafolio',
 page_icon='https://www.alexgrey.com/img/containers/art_images/Psychedelic-Healing---2020-Alex-Grey-smaller-watermarked.jpg/173f3855733a06912abc4e11ecd04c48.jpg')
+
+xata = st.connection('xata',type=XataConnection)
+
 
 st.markdown('''
 <style>
@@ -27,10 +32,52 @@ st.markdown('''
 #Funciones
 async def get_random_image(query='random'):
     try:
-        result = await asyncio.to_thread(requests.get, f'https://source.unsplash.com/random/600x400?{query}',timeout=1)
+        result = await asyncio.to_thread(requests.get, f'https://source.unsplash.com/random/600x400?{query}',timeout=.5)
         return base64.b64encode(result.content).decode('utf-8')
     except Exception as e:
         return f"https://source.unsplash.com/random/600x400?{query}"
+
+def update_articles():
+    st.session_state.articles = xata.query('Articulo')
+
+def set_article(article):
+    st.session_state.article = article
+
+def render_article_prev(article):
+    with st.container(border=True,height=500):
+        if 'banner' in article and 'url' in article['banner']:
+            da1 = f'<img src="{article["banner"]["url"]}" alt="article" width="300" height="200">'
+        else:
+            with st.spinner('Cargando...'):
+                img1 = asyncio.run(get_random_image('data-science'))
+            if 'https' in img1:
+                da1 = f'<img src="{img1}" alt="article" width="300" height="200">'
+            else:
+                da1 = f'<img src="data:image/png;base64,{img1}" alt="article" width="300" height="200">'
+
+
+        st.markdown(f'''
+        <div class="aboutc">
+        {da1}
+        </div>
+        ''', unsafe_allow_html=True)
+        ctags = list(map(lambda x: f':blue[{x}]' if random.choice([True,False]) else f':rainbow[{x}]',article['tags']))
+        st.write(f'## {article["titulo"]}')
+        st.write(', '.join(ctags))
+        st.button('Leer',key=article['id'],use_container_width=True,on_click=set_article,args=(article,))
+
+
+def read_article(article):
+    if st.button('Regresar',use_container_width=True):
+        st.session_state.article = None
+        st.rerun()
+    st.markdown(f'# {article["titulo"]}')
+    st.caption(f'Publicado el {article["xata"]["createdAt"][:10]}')
+    ctags = list(map(lambda x: f':blue[{x}]' if random.choice([True,False]) else f':rainbow[{x}]',article['tags']))
+    st.write(', '.join(ctags))
+    st.divider()
+    st.write(article['contenido'],unsafe_allow_html=True)
+
 
 def main():
     mc1, mc2 = st.columns([0.3, 0.7])
@@ -185,6 +232,34 @@ def blog():
     <p> Aquí hay algunas de mis publicaciones más recientes en mi blog personal:</p>
     </div>
     ''', unsafe_allow_html=True)
+
+    _,ref = st.columns([0.9, 0.1])
+    ref.button('Actualizar',on_click=update_articles,use_container_width=True)
+
+    cols = st.columns(3)
+    k = 0
+    for i in st.session_state.articles['records']:
+        with cols[k]:
+            render_article_prev(i)
+        k += 1
+        if k == 3:
+            k = 0
+
+
+if 'articles' not in st.session_state:
+    st.session_state.articles = xata.query('Articulo')
+
+if 'marticles' not in st.session_state:
+    st.session_state.marticles = []
+
+if 'projects' not in st.session_state:
+    st.session_state.projects = xata.query('Proyecto')
+
+
+if 'article' not in st.session_state:
+    st.session_state.article = None
+
+
 #------------------------------------------------------------------------------------------------
 #Titulo de la pagina
 #st.title('Mi primer portafolio con Streamlit')
@@ -341,7 +416,19 @@ if tabs == 'Contacto':
 
 
 if tabs == 'Blog':
-    blog()
+    if st.session_state.article is not None:
+        read_article(st.session_state.article)
+    else:
+        blog()
+        _,rini , nxt = st.columns([0.7,0.2,0.1])
+        if rini.button('Regresar al inicio',use_container_width=True):
+            update_articles()
+            st.rerun()
+        if nxt.button('Mostrar más'):
+            st.session_state.articles = xata.next_page('Articulo',st.session_state.articles)
+            st.rerun()
+
 
 if tabs == 'Proyectos':
     projects()
+
