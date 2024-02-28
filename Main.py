@@ -273,7 +273,7 @@ def blog():
     </div>
     ''', unsafe_allow_html=True)
 
-    _,ref = st.columns([0.9, 0.1])
+    _,ref = st.columns([0.8, 0.2])
     ref.button('Actualizar',on_click=update_articles,use_container_width=True)
 
     cols = st.columns(3)
@@ -462,7 +462,7 @@ if tabs == 'Blog':
     else:
         with st.spinner('Cargando...'):
             blog()
-        _,rini , nxt = st.columns([0.7,0.2,0.1])
+        _,rini , nxt = st.columns([0.6,0.2,0.2])
         if rini.button('Regresar al inicio',use_container_width=True):
             update_articles()
             js = '''
@@ -474,22 +474,24 @@ if tabs == 'Blog':
                 '''
 
             st.components.v1.html(js)
-            time.sleep(1)
+            time.sleep(.1)
             st.rerun()
 
         if nxt.button('Mostrar más'):
-            st.session_state.articles = xata.next_page('Articulo',st.session_state.articles)
-            js = '''
-                <script>
-                    var body = window.parent.document.querySelector(".main");
-                    console.log(body);
-                    body.scrollTop = 0;
-                </script>
-                '''
+            ndata = xata.next_page('Articulo',st.session_state.articles)
+            if ndata is not None:
+                st.session_state.articles = ndata
+                js = '''
+                    <script>
+                        var body = window.parent.document.querySelector(".main");
+                        console.log(body);
+                        body.scrollTop = 0;
+                    </script>
+                    '''
 
-            st.components.v1.html(js)
-            time.sleep(1)
-            st.rerun()
+                st.components.v1.html(js)
+                time.sleep(.1)
+                st.rerun()
 
 
 if tabs == 'Proyectos':
