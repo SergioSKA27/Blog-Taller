@@ -477,7 +477,7 @@ if tabs == 'Blog':
             time.sleep(.1)
             st.rerun()
 
-        if nxt.button('Mostrar más'):
+        if nxt.button('Mostrar más',use_container_width=True):
             ndata = xata.next_page('Articulo',st.session_state.articles)
             if ndata is not None:
                 st.session_state.articles = ndata
