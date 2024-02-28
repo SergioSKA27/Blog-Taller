@@ -186,6 +186,23 @@ def contact():
                 st.toast(f'Gracias por tu mensaje {name}! Nos pondremos en contacto contigo lo antes posible.',icon='🤗')
 
 
+def render_project(project):
+    with st.container(border=True):
+        c1,c2 = st.columns([0.7, 0.3])
+
+        with c1:
+            if project['embed']:
+                with st.expander('Descripción'):
+                    st.write(project['descripcion'],unsafe_allow_html=True)
+
+        st.markdown(f'''
+        <iframe src="{project['url']}" width="100%" height="400" frameborder="0" scrolling="yes"></iframe>
+        ''',unsafe_allow_html=True)
+
+        with c2:
+            st.subheader(project['titulo'])
+            st.link_button('Ver proyecto',project['url'],use_container_width=True)
+
 def projects():
     pc1, pc2 = st.columns([0.6, 0.4])
     with pc1:
@@ -202,6 +219,11 @@ def projects():
         st_lottie('https://lottie.host/bb7b964f-b151-48d4-902c-f8ff5e1ea037/H2O7NOxRVS.json',loop=True,height=400)
 
     st.divider()
+
+    #st.write(st.session_state.projects)
+
+    for i in st.session_state.projects['records']:
+        render_project(i)
 
 def blog():
     bcol1 , bcol2 = st.columns([0.6, 0.4])
